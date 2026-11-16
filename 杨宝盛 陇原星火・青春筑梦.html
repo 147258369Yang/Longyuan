@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>陇原星火·青春筑梦 | 甘肃农业大学第五届红色网页设计大赛</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --china-red: #B22222;
+            --deep-red: #8B0000;
+            --gold: #C9A227;
+            --light-gold: #D4AF37;
+            --ivory: #FAF7F0;
+            --warm-white: #FDFBF7;
+            --text-dark: #2C2C2C;
+            --text-gray: #5A5A5A;
+            --max-width: 1700px;
+        }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+            background-color: var(--warm-white);
+            color: var(--text-dark);
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 60px;
+        }
+
+        /* 导航栏 */
+        .navbar {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 20px 0;
+            transition: all 0.4s ease;
+            background: transparent;
+        }
+        .navbar.scrolled {
+            background: rgba(178, 34, 34, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 12px 0;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.15);
+        }
+        .nav-content {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            color: var(--warm-white);
+            font-size: 20px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .logo-icon {
+            width: 32px; height: 32px;
+            border: 2px solid var(--gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: var(--gold);
+        }
+        .nav-links {
+            display: flex;
+            gap: 45px;
+            list-style: none;
+        }
+        .nav-links a {
+            color: var(--warm-white);
+            text-decoration: none;
+            font-size: 15px;
+            letter-spacing: 1px;
+            position: relative;
+            transition: color 0.3s;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -6px; left: 50%;
+            width: 0; height: 2px;
+            background: var(--gold);
+            transition: all 0.3s;
+            transform: translateX(-50%);
+        }
+        .nav-links a:hover { color: var(--gold); }
+        .nav-links a:hover::after { width: 100%; }
+
+        /* Hero首页 */
+        .hero {
+            height: 100vh;
+            min-height: 700px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #8B0000 0%, #B22222 50%, #A52A2A 100%);
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(201, 162, 39, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(201, 162, 39, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        .hero-pattern {
+            position: absolute;
+            width: 100%; height: 100%;
+            opacity: 0.05;
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.3) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.3) 1px, transparent 1px);
+            background-size: 60px 60px;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            color: var(--warm-white);
+            padding: 0 20px;
+        }
+        .hero-subtitle {
+            font-size: 18px;
+            letter-spacing: 8px;
+            color: var(--light-gold);
+            margin-bottom: 25px;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.2s forwards;
+        }
+        .hero-title {
+            font-size: 72px;
+            font-weight: 700;
+            letter-spacing: 12px;
+            margin-bottom: 30px;
+            text-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.4s forwards;
+            line-height: 1.3;
+        }
+        .hero-title span {
+            display: block;
+            font-size: 36px;
+            font-weight: 400;
+            letter-spacing: 6px;
+            margin-top: 15px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        .hero-desc {
+            font-size: 18px;
+            max-width: 700px;
+            margin: 0 auto 50px;
+            line-height: 2;
+            opacity: 0.9;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.6s forwards;
+        }
+        .hero-buttons {
+            display: flex;
+            gap: 25px;
+            justify-content: center;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.8s forwards;
+        }
+        .btn {
+            padding: 16px 45px;
+            font-size: 16px;
+            letter-spacing: 2px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: 500;
+        }
+        .btn-primary {
+            background: var(--gold);
+            color: var(--deep-red);
+            border: 2px solid var(--gold);
+        }
+        .btn-primary:hover {
+            background: transparent;
+            color: var(--gold);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(201, 162, 39, 0.3);
+        }
+        .btn-outline {
+            background: transparent;
+            color: var(--warm-white);
+            border: 2px solid rgba(255, 255, 255, 0.6);
+        }
+        .btn-outline:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+            transform: translateY(-2px);
+        }
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px; left: 50%;
+            transform: translateX(-50%);
+            color: var(--warm-white);
+            opacity: 0.7;
+            animation: bounce 2s infinite;
+            z-index: 10;
+            font-size: 14px;
+        }
+        .scroll-indicator::before {
+            content: '';
+            display: block;
+            width: 2px; height: 40px;
+            background: var(--warm-white);
+            margin: 0 auto 10px;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-10px); }
+            60% { transform: translateX(-50%) translateY(-5px); }
+        }
+
+        /* 通用区块 */
+        .section { padding: 120px 0; position: relative; }
+        .section-header { text-align: center; margin-bottom: 80px; }
+        .section-label {
+            display: inline-block;
+            color: var(--china-red);
+            font-size: 14px;
+            letter-spacing: 6px;
+            margin-bottom: 20px;
+            position: relative;
+            padding: 0 30px;
+        }
+        .section-label::before,
+        .section-label::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 20px; height: 1px;
+            background: var(--gold);
+        }
+        .section-label::before { left: 0; }
+        .section-label::after { right: 0; }
+        .section-title {
+            font-size: 42px;
+            font-weight: 700;
+            color: var(--text-dark);
+            letter-spacing: 4px;
+            margin-bottom: 20px;
+        }
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px; height: 3px;
+            background: var(--gold);
+            margin: 25px auto 0;
+        }
+        .section-desc {
+            font-size: 17px;
+            color: var(--text-gray);
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 2;
+        }
+
+        /* 红色溯源 */
+        #origin { background: var(--ivory); }
+        .origin-intro {
+            text-align: center;
+            font-size: 19px;
+            line-height: 2.2;
+            color: var(--text-dark);
+            max-width: 1200px;
+            margin: 0 auto 80px;
+            padding: 40px 60px;
+            background: var(--warm-white);
+            border-left: 4px solid var(--china-red);
+            border-right: 4px solid var(--china-red);
+            position: relative;
+        }
+        .origin-intro::before,
+        .origin-intro::after {
+            content: '';
+            position: absolute;
+            width: 30px; height: 30px;
+            border: 2px solid var(--gold);
+        }
+        .origin-intro::before { top: 0; left: 0; border-right: none; border-bottom: none; }
+        .origin-intro::after { bottom: 0; right: 0; border-left: none; border-top: none; }
+        .spirit-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+        }
+        .spirit-card {
+            background: var(--warm-white);
+            padding: 45px 35px;
+            text-align: center;
+            border: 1px solid rgba(178, 34, 34, 0.1);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .spirit-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 4px;
+            background: var(--gold);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+        .spirit-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(178, 34, 34, 0.12);
+            border-color: var(--gold);
+        }
+        .spirit-card:hover::before { transform: scaleX(1); }
+        .spirit-icon {
+            width: 70px; height: 70px;
+            margin: 0 auto 25px;
+            border: 2px solid var(--china-red);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            color: var(--china-red);
+            transition: all 0.3s;
+        }
+        .spirit-card:hover .spirit-icon {
+            background: var(--china-red);
+            color: var(--gold);
+        }
+        .spirit-card h3 {
+            font-size: 20px;
+            color: var(--deep-red);
+            margin-bottom: 15px;
+            letter-spacing: 2px;
+        }
+        .spirit-card p {
+            font-size: 14px;
+            color: var(--text-gray);
+            line-height: 1.9;
+        }
+
+        /* 陇原红色故事 */
+        #story { background: var(--warm-white); }
+        .story-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 35px;
+        }
+        .story-card {
+            background: #fff;
+            overflow: hidden;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            transition: all 0.4s ease;
+        }
+        .story-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 60px rgba(178, 34, 34, 0.15);
+        }
+        .story-image {
+            height: 260px;
+            background: linear-gradient(135deg, var(--china-red), var(--deep-red));
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .story-image::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at center, rgba(201, 162, 39, 0.2) 0%, transparent 70%);
+        }
+        .story-placeholder {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 16px;
+            letter-spacing: 3px;
+            z-index: 1;
+            text-align: center;
+        }
+        .story-placeholder .icon {
+            font-size: 48px;
+            display: block;
+            margin-bottom: 15px;
+            color: var(--gold);
+        }
+        .story-content { padding: 35px 30px; }
+        .story-tag {
+            display: inline-block;
+            padding: 4px 12px;
+            background: rgba(178, 34, 34, 0.1);
+            color: var(--china-red);
+            font-size: 12px;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+        }
+        .story-content h3 {
+            font-size: 22px;
+            color: var(--text-dark);
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+        .story-content p {
+            font-size: 15px;
+            color: var(--text-gray);
+            line-height: 1.9;
+            margin-bottom: 20px;
+        }
+        .story-more {
+            color: var(--china-red);
+            font-size: 14px;
+            text-decoration: none;
+            letter-spacing: 1px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: gap 0.3s;
+        }
+        .story-more:hover { gap: 15px; color: var(--gold); }
+
+        /* 青春担当 */
+        #youth { background: linear-gradient(180deg, var(--ivory) 0%, var(--warm-white) 100%); }
+        .youth-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+        .youth-text h3 {
+            font-size: 30px;
+            color: var(--deep-red);
+            margin-bottom: 30px;
+            letter-spacing: 2px;
+            line-height: 1.5;
+        }
+        .youth-text p {
+            font-size: 17px;
+            color: var(--text-gray);
+            line-height: 2.1;
+            margin-bottom: 25px;
+        }
+        .youth-quote {
+            margin-top: 40px;
+            padding: 30px 35px;
+            background: #fff;
+            border-left: 4px solid var(--gold);
+            position: relative;
+        }
+        .youth-quote p {
+            font-size: 16px;
+            color: var(--text-dark);
+            font-style: italic;
+            margin-bottom: 10px;
+        }
+        .youth-quote span {
+            font-size: 14px;
+            color: var(--china-red);
+            letter-spacing: 1px;
+        }
+        .youth-showcase {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+        .showcase-item {
+            background: #fff;
+            padding: 35px 25px;
+            text-align: center;
+            border: 1px solid rgba(178, 34, 34, 0.08);
+            transition: all 0.3s;
+        }
+        .showcase-item:hover {
+            border-color: var(--gold);
+            transform: translateY(-5px);
+        }
+        .showcase-item:nth-child(odd) { margin-top: 40px; }
+        .showcase-number {
+            font-size: 42px;
+            font-weight: 700;
+            color: var(--china-red);
+            margin-bottom: 10px;
+            font-family: 'Times New Roman', serif;
+        }
+        .showcase-item h4 {
+            font-size: 16px;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+        .showcase-item p {
+            font-size: 13px;
+            color: var(--text-gray);
+            line-height: 1.7;
+        }
+
+        /* 创作理念 */
+        #concept { background: var(--warm-white); }
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+        }
+        .concept-card {
+            padding: 50px 40px;
+            background: #fff;
+            position: relative;
+            border: 1px solid rgba(0, 0, 0, 0.04);
+            transition: all 0.4s;
+        }
+        .concept-card:hover {
+            box-shadow: 0 20px 50px rgba(178, 34, 34, 0.1);
+        }
+        .concept-number {
+            position: absolute;
+            top: 30px; right: 35px;
+            font-size: 60px;
+            font-weight: 700;
+            color: rgba(201, 162, 39, 0.15);
+            font-family: 'Times New Roman', serif;
+            line-height: 1;
+        }
+        .concept-card h3 {
+            font-size: 24px;
+            color: var(--deep-red);
+            margin-bottom: 25px;
+            letter-spacing: 2px;
+            position: relative;
+            z-index: 1;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--gold);
+            display: inline-block;
+        }
+        .concept-card p {
+            font-size: 15px;
+            color: var(--text-gray);
+            line-height: 2;
+            position: relative;
+            z-index: 1;
+        }
+        .concept-card ul {
+            list-style: none;
+            margin-top: 20px;
+        }
+        .concept-card li {
+            font-size: 14px;
+            color: var(--text-gray);
+            padding: 8px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+        .concept-card li::before {
+            content: '◆';
+            position: absolute;
+            left: 0;
+            color: var(--gold);
+            font-size: 10px;
+            top: 12px;
+        }
+
+        /* 底部 */
+        footer {
+            background: linear-gradient(135deg, #8B0000 0%, #B22222 100%);
+            color: rgba(255, 255, 255, 0.8);
+            padding: 80px 0 40px;
+            position: relative;
+        }
+        .footer-content { text-align: center; }
+        .footer-title {
+            font-size: 28px;
+            color: var(--warm-white);
+            letter-spacing: 6px;
+            margin-bottom: 15px;
+        }
+        .footer-subtitle {
+            font-size: 15px;
+            color: var(--gold);
+            letter-spacing: 3px;
+            margin-bottom: 40px;
+        }
+        .footer-info {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            margin-bottom: 50px;
+            flex-wrap: wrap;
+        }
+        .footer-info-item { text-align: center; }
+        .footer-info-item h4 {
+            font-size: 14px;
+            color: var(--gold);
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+        .footer-info-item p {
+            font-size: 15px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        .footer-divider {
+            width: 100%;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.15);
+            margin-bottom: 30px;
+        }
+        .footer-copyright {
+            font-size: 13px;
+            opacity: 0.7;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-content">
+            <div class="logo">
+                <div class="logo-icon">陇</div>
+                <span>陇原星火</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#hero">首页</a></li>
+                <li><a href="#origin">红色溯源</a></li>
+                <li><a href="#story">陇原故事</a></li>
+                <li><a href="#youth">青春担当</a></li>
+                <li><a href="#concept">创作理念</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero首页 -->
+    <section class="hero" id="hero">
+        <div class="hero-pattern"></div>
+        <div class="hero-content">
+            <p class="hero-subtitle">甘肃农业大学第五届红色网页设计大赛</p>
+            <h1 class="hero-title">
+                陇原星火
+                <span>青春筑梦 · 强农兴农</span>
+            </h1>
+            <p class="hero-desc">
+                传承红色基因，赓续精神血脉。以数字技术赋能红色文化传播，
+                展现新时代甘农学子的使命担当与青春力量。
+            </p>
+            <div class="hero-buttons">
+                <a href="#origin" class="btn btn-primary">开启红色之旅</a>
+                <a href="#concept" class="btn btn-outline">参赛说明</a>
+            </div>
+        </div>
+        <div class="scroll-indicator">向下滚动</div>
+    </section>
+
+    <!-- 红色溯源模块 -->
+    <section class="section" id="origin">
+        <div class="container">
+            <div class="section-header">
+                <p class="section-label">RED ORIGIN</p>
+                <h2 class="section-title">红色溯源</h2>
+                <p class="section-desc">回溯百年征程，感悟精神力量</p>
+            </div>
+            <div class="origin-intro">
+                中国共产党的百年历史，是一部践行初心使命的历史，是一部党与人民心连心、同呼吸、共命运的历史。
+                从嘉兴南湖的一叶红船到领航中国的巍巍巨轮，红色基因融入民族血脉，精神谱系指引前行方向。
+                新时代青年当以史为鉴、开创未来，在传承中创新，在奋斗中成长。
+            </div>
+            <div class="spirit-grid">
+                <div class="spirit-card">
+                    <div class="spirit-icon">★</div>
+                    <h3>建党精神</h3>
+                    <p>坚持真理、坚守理想，践行初心、担当使命，不怕牺牲、英勇斗争，对党忠诚、不负人民。</p>
+                </div>
+                <div class="spirit-card">
+                    <div class="spirit-icon">◆</div>
+                    <h3>长征精神</h3>
+                    <p>把全国人民和中华民族的根本利益看得高于一切，坚定革命的理想和信念，坚信正义事业必然胜利。</p>
+                </div>
+                <div class="spirit-card">
+                    <div class="spirit-icon">▲</div>
+                    <h3>延安精神</h3>
+                    <p>自力更生、艰苦奋斗，全心全意为人民服务，理论联系实际、不断开拓创新，实事求是。</p>
+                </div>
+                <div class="spirit-card">
+                    <div class="spirit-icon">●</div>
+                    <h3>脱贫攻坚精神</h3>
+                    <p>上下同心、尽锐出战、精准务实、开拓创新、攻坚克难、不负人民的伟大脱贫攻坚精神。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 陇原红色故事模块 -->
+    <section class="section" id="story">
+        <div class="container">
+            <div class="section-header">
+                <p class="section-label">LONGYUAN STORIES</p>
+                <h2 class="section-title">陇原红色故事</h2>
+                <p class="section-desc">甘肃大地的红色记忆，永不褪色的精神丰碑</p>
+            </div>
+            <div class="story-grid">
+                <div class="story-card">
+                    <div class="story-image">
+                        <div class="story-placeholder">
+                            <span class="icon">⛰</span>
+                            会宁红军会师旧址
+                        </div>
+                    </div>
+                    <div class="story-content">
+                        <span class="story-tag">红色地标</span>
+                        <h3>会宁会师 · 胜利丰碑</h3>
+                        <p>1936年10月，红军三大主力在会宁胜利会师，标志着二万五千里长征的胜利结束，在中国革命史上写下了光辉的一页。</p>
+                        <a href="#" class="story-more">了解详情 →</a>
+                    </div>
+                </div>
+                <div class="story-card">
+                    <div class="story-image">
+                        <div class="story-placeholder">
+                            <span class="icon">🏛</span>
+                            陕甘边革命根据地
+                        </div>
+                    </div>
+                    <div class="story-content">
+                        <span class="story-tag">革命摇篮</span>
+                        <h3>南梁精神 · 薪火相传</h3>
+                        <p>以南梁为中心的陕甘边革命根据地，是土地革命战争后期全国"硕果仅存"的革命根据地，为党中央和红军长征提供了落脚点。</p>
+                        <a href="#" class="story-more">了解详情 →</a>
+                    </div>
+                </div>
+                <div class="story-card">
+                    <div class="story-image">
+                        <div class="story-placeholder">
+                            <span class="icon">🌄</span>
+                            腊子口战役遗址
+                        </div>
+                    </div>
+                    <div class="story-content">
+                        <span class="story-tag">战役遗址</span>
+                        <h3>腊子口 · 天险突破</h3>
+                        <p>腊子口战役是红军长征进入甘肃的关键一仗，一举突破川甘边界的天险门户，为红军北上抗日打开了通道。</p>
+                        <a href="#" class="story-more">了解详情 →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 青春担当模块 -->
+    <section class="section" id="youth">
+        <div class="container">
+            <div class="section-header">
+                <p class="section-label">YOUTH DUTY</p>
+                <h2 class="section-title">青春担当</h2>
+                <p class="section-desc">强农兴农，吾辈之责；乡村振兴，青年先行</p>
+            </div>
+            <div class="youth-layout">
+                <div class="youth-text">
+                    <h3>扎根陇原大地<br>书写强农兴农青春答卷</h3>
+                    <p>
+                        作为甘肃农业大学的学子，我们始终牢记"敦品励学，笃志允能"的校训，
+                        把论文写在陇原大地上，把科技送进千家万户。
+                    </p>
+                    <p>
+                        从田间地头到实验室台，从脱贫攻坚到乡村振兴，一代代甘农人传承红色基因，
+                        以专业所学服务地方发展，用青春汗水浇灌希望田野。
+                    </p>
+                    <p>
+                        新时代赋予新使命，新征程呼唤新作为。我们以红色精神铸魂，以专业本领立身，
+                        在农业现代化建设的道路上勇毅前行。
+                    </p>
+                    <div class="youth-quote">
+                        <p>"青年兴则国家兴，青年强则国家强。当代中国青年生逢其时，施展才干的舞台无比广阔，实现梦想的前景无比光明。"</p>
+                        <span>—— 习近平总书记寄语青年</span>
+                    </div>
+                </div>
+                <div class="youth-showcase">
+                    <div class="showcase-item">
+                        <div class="showcase-number">80+</div>
+                        <h4>社会实践团队</h4>
+                        <p>每年暑期奔赴陇原各地开展三下乡实践活动</p>
+                    </div>
+                    <div class="showcase-item">
+                        <div class="showcase-number">3000+</div>
+                        <h4>青年志愿者</h4>
+                        <p>活跃在乡村振兴、社区服务一线</p>
+                    </div>
+                    <div class="showcase-item">
+                        <div class="showcase-number">100+</div>
+                        <h4>科创项目</h4>
+                        <p>聚焦农业前沿，助力科技兴农</p>
+                    </div>
+                    <div class="showcase-item">
+                        <div class="showcase-number">14</div>
+                        <h4>个省级重点学科</h4>
+                        <p>支撑甘肃农业高质量发展</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 创作理念模块 -->
+    <section class="section" id="concept">
+        <div class="container">
+            <div class="section-header">
+                <p class="section-label">CREATIVE CONCEPT</p>
+                <h2 class="section-title">创作理念</h2>
+                <p class="section-desc">数字赋能红色文化，科技传承红色基因</p>
+            </div>
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <div class="concept-number">01</div>
+                    <h3>设计初衷</h3>
+                    <p>
+                        本作品以"陇原星火·青春筑梦"为主题，旨在通过网页设计的形式，
+                        挖掘甘肃本土红色资源，展现红色文化的时代价值，
+                        引导青年学生在沉浸式体验中感悟红色精神、传承红色基因。
+                    </p>
+                    <ul>
+                        <li>传播陇原红色文化</li>
+                        <li>展现青年责任担当</li>
+                        <li>创新红色教育形式</li>
+                    </ul>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-number">02</div>
+                    <h3>设计思路</h3>
+                    <p>
+                        整体采用"庄重+青春"的双调性设计语言，以中国红为主色调奠定庄重基调，
+                        以鎏金色点缀彰显文化底蕴，以米白色调和视觉节奏。
+                        版式上采用大留白、大标题的现代设计手法，兼顾传统韵味与当代审美。
+                    </p>
+                    <ul>
+                        <li>三色体系构建视觉层次</li>
+                        <li>对称布局彰显庄重大气</li>
+                        <li>微动效提升交互体验</li>
+                    </ul>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-number">03</div>
+                    <h3>创新亮点</h3>
+                    <p>
+                        深度融合甘肃农业大学学科特色与红色文化内核，
+                        将"强农兴农"使命与红色精神传承有机结合，
+                        打造具有甘农辨识度、陇原地域特色的红色文化数字作品。
+                    </p>
+                    <ul>
+                        <li>本土化红色资源深度挖掘</li>
+                        <li>农科学子使命视角切入</li>
+                        <li>纯原生代码技术实现</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 底部模块 -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <h3 class="footer-title">陇原星火 · 青春筑梦</h3>
+                <p class="footer-subtitle">甘肃农业大学第五届红色网页设计大赛参赛作品</p>
+                <div class="footer-info">
+                    <div class="footer-info-item">
+                        <h4>参赛院校</h4>
+                        <p>甘肃农业大学</p>
+                    </div>
+                    <div class="footer-info-item">
+                        <h4>作品主题</h4>
+                        <p>陇原星火 · 青春筑梦</p>
+                    </div>
+                    <div class="footer-info-item">
+                        <h4>技术栈</h4>
+                        <p>HTML5 + CSS3 + JavaScript</p>
+                    </div>
+                    <div class="footer-info-item">
+                        <h4>创作时间</h4>
+                        <p>2026年</p>
+                    </div>
+                </div>
+                <div class="footer-divider"></div>
+                <p class="footer-copyright">
+                    © 2026 甘肃农业大学 版权所有 | 第五届红色网页设计大赛参赛作品
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 导航栏滚动效果
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // 平滑滚动导航
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const offsetTop = target.offsetTop - 80;
+                    window.scrollTo({
+                        top: offsetTop,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // 滚动渐入动画
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.spirit-card, .story-card, .concept-card, .showcase-item').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+            observer.observe(el);
+        });
+
+        // 数字增长动画
+        function animateNumber(element, target, duration = 1500) {
+            let start = 0;
+            const increment = target / (duration / 16);
+            function update() {
+                start += increment;
+                if (start < target) {
+                    element.textContent = Math.floor(start) + '+';
+                    requestAnimationFrame(update);
+                } else {
+                    element.textContent = target + '+';
+                }
+            }
+            update();
+        }
+
+        const showcaseObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const numbers = entry.target.querySelectorAll('.showcase-number');
+                    numbers.forEach(num => {
+                        const text = num.textContent;
+                        const value = parseInt(text);
+                        if (!isNaN(value)) {
+                            animateNumber(num, value);
+                        }
+                    });
+                    showcaseObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.3 });
+
+        const showcaseSection = document.querySelector('.youth-showcase');
+        if (showcaseSection) {
+            showcaseObserver.observe(showcaseSection);
+        }
+    </script>
+</body>
+</html>
